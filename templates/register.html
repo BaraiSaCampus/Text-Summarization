@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>注册</title>
+<!--	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">-->
+	<style>
+		body {
+			background-color: #f2f2f2;
+		}
+		.container {
+			margin-top: 100px;
+			max-width: 400px;
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0px 0px 5px grey;
+		}
+		h2 {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+		.form-group {
+			margin-bottom: 20px;
+		}
+		.error {
+			color: red;
+			margin-bottom: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>注册</h2>
+		{% if error %}
+		<p class="error">{{ error }}</p>
+		{% endif %}
+		<form method="post">
+			<div class="form-group">
+				<label for="username">用户名:</label>
+				<input type="text" class="form-control" id="username" name="username" required>
+			</div>
+			<div class="form-group">
+				<label for="password">密码:</label>
+				<input type="password" class="form-control" id="password" name="password" required>
+			</div>
+			<button type="submit" class="btn btn-primary">确认</button>
+		</form>
+		<p>已经拥有账户了？ <a href="{{ url_for('login') }}">登录</a></p>
+	</div>
+</body>
+</html>

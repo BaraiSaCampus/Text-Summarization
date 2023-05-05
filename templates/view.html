@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <title>{{ filename }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F5F5F5;
+        }
+
+        header {
+            background-color: #333;
+            color: #FFF;
+            padding: 10px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #FFF;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{ filename }}</h1>
+    </header>
+    <div class="container">
+        <pre>{{ text }}</pre>
+        <br>
+        <a href="{{ url_for('history') }}">Back to History</a>
+    </div>
+</body>
+</html>

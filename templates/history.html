@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <title>History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F5F5F5;
+        }
+
+        header {
+            background-color: #333;
+            color: #FFF;
+            padding: 10px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #FFF;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>摘要记录</h1>
+    </header>
+    <div class="container">
+        <ul>
+            {% for file in files %}
+                <li><a href="{{ url_for('view', filename=file) }}">{{ file }}</a></li>
+            {% endfor %}
+        </ul>
+        <br>
+        <a href="{{ url_for('index') }}">Back to Index</a>
+    </div>
+</body>
+</html>

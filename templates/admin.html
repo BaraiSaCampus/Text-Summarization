@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <title>Admin</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<style>
+		body {
+			background-color: #f2f2f2;
+		}
+		.container {
+			margin-top: 100px;
+			max-width: 800px;
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0px 0px 5px grey;
+			overflow-x: auto;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+		}
+		th, td {
+			padding: 10px;
+			text-align: left;
+			border: 1px solid #ddd;
+		}
+		th {
+			background-color: #f2f2f2;
+			font-weight: bold;
+		}
+		h1 {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>已注册用户</h1>
+        <table>
+			<thead>
+				<tr>
+                	<th>用户名</th>
+					<th>密码</th>
+            	</tr>
+			</thead>
+			<tbody>
+            	{% for username, password in users.items() %}
+                	<tr>
+                    	<td>{{ username }}</td>
+						<td>{{ password }}</td>
+                	</tr>
+            {% endfor %}
+			<tbody/>
+        </table>
+		{% else %}
+        <p>请 <a href="{{ url_for('login') }}">登录</a> 后访问此页面。</p>
+    	{% endif %}
+	</div>
+</body>
+</html>
