@@ -5,6 +5,7 @@ import requests
 import datetime
 import csv
 import os
+from en_decode import encode,decode
 
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
@@ -26,11 +27,12 @@ def add_user(username, password):
 
 users = get_users()
 
+
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']
+        password = encode(request.form['password'])
         if username in users and users[username] == password:
             logs.append((username, datetime.datetime.now()))
             with open('login_log.txt', 'a') as f:
@@ -51,8 +53,8 @@ def register():
         if username in users:
             return render_template('register.html', error='Username already exists')
         else:
-            add_user(username, password)
-            users[username] = password
+            add_user(username, encode(password))
+            users[username] = encode(password)
             session['username'] = username
             return redirect(url_for('index'))
     else:
@@ -91,6 +93,7 @@ def view(filename):
         text = f.read()
         return render_template('view.html', filename=filename, text=text)
 
+
 @app.route('/news')
 def news():
     url = 'https://news.sina.com.cn/'
@@ -108,21 +111,25 @@ def news():
             soup = BeautifulSoup(response.text, 'html.parser')
             content = soup.select_one('div#article p').get_text()
             paragraphs = soup.select('div#article p')
-            content = ''.join([p.get_text() for p in paragraphs])
-            if len(content) < 40:
+            content1 = ''.join([p.get_text() for p in paragraphs])
+            if len(content1) < 40:
                 pass
             else:
-                content = generate(content)
+                content = generate(content1)
+                path = r'D:\\flaskProject\\history\\'
+                filename = path+content
+                with open(filename, 'w') as f:
+                    f.write(content1)
+                news_list.append((title, content, link))
         except:
             pass
-        news_list.append((title, content, link))
+        # news_list.append((title, content, link))
     return render_template('news.html', news_list=news_list)
-
 
 
 @app.route('/admin', methods=['GET'])
 def admin():
-    if 'username' in session and session['username'] == 'admin':
+    if 'username' in session and session['username'] == 'tE9foq6YE7NCQq9ziXKOrg==':
         users = get_users()
         logs.append(('admin', datetime.datetime.now()))
         with open('login_log.txt', 'a') as f:
