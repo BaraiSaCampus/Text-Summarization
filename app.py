@@ -129,7 +129,7 @@ def news():
 
 @app.route('/admin', methods=['GET'])
 def admin():
-    if 'username' in session and session['username'] == 'tE9foq6YE7NCQq9ziXKOrg==':
+    if 'username' in session and encode(session['username']) == 'tE9foq6YE7NCQq9ziXKOrg==':
         users = get_users()
         logs.append(('admin', datetime.datetime.now()))
         with open('login_log.txt', 'a') as f:
