@@ -5,7 +5,9 @@ import requests
 import datetime
 import csv
 import os
-from en_decode import encode,decode
+from en_decode import encode, decode
+import database as db
+import mysql.connector
 
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
@@ -13,16 +15,19 @@ logs = []
 
 
 def get_users():
-    with open('users.csv', 'r') as f:
-        reader = csv.DictReader(f)
-        users = {row['username']: row['password'] for row in reader}
-    return users
+    user = dict(db.show_user())
+    return user
+    # with open('users.csv', 'r') as f:
+    #     reader = csv.DictReader(f)
+    #     users = {row['username']: row['password'] for row in reader}
+    # return users
 
 
 def add_user(username, password):
-    with open('users.csv', 'a', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow([username, password])
+    db.ins_user(username, password)
+    # with open('users.csv', 'a', newline='') as f:
+    #     writer = csv.writer(f)
+    #     writer.writerow([username, password])
 
 
 users = get_users()
@@ -69,6 +74,7 @@ def index():
             text2 = generate(text1)
             path = r'D:\\flaskProject\\history\\'
             filename = path + text2
+            db.ins_news(text2,text1)
             with open(filename, 'w') as f:
                 f.write(text1)
             return render_template('index.html', text=text2)
@@ -111,16 +117,17 @@ def news():
             soup = BeautifulSoup(response.text, 'html.parser')
             content = soup.select_one('div#article p').get_text()
             paragraphs = soup.select('div#article p')
-            content1 = ''.join([p.get_text() for p in paragraphs])
+            content1 = ''.join([p.get_text() for p in paragraphs])##正文内容
             if len(content1) < 40:
                 pass
             else:
-                content = generate(content1)
+                content = generate(content1)##生成摘要
                 path = r'D:\\flaskProject\\history\\'
-                filename = path+content
+                filename = path + content
                 with open(filename, 'w') as f:
                     f.write(content1)
                 news_list.append((title, content, link))
+                db.ins_news(content,content1)
         except:
             pass
         # news_list.append((title, content, link))
